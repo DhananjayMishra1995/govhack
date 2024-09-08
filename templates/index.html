@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Down Under Dollars - Home</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('/static/images/background.jpeg'); /* Background image */
+            background-size: cover;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar a {
+            color: #FFD700;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            background-color: #FFD700;
+            color: black;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="{{ url_for('index') }}" class="active">Home</a>
+        <a href="{{ url_for('contact') }}">Contact Us</a>
+        <a href="{{ url_for('products') }}">Products</a>
+        <a href="{{ url_for('signup') }}">Sign Up</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Welcome to Down Under Dollars - Budgeting, the Aussie-Kiwi Way</h1>
+        <p>This is the main content of your home page. Explore our products to learn more.</p>
+    </div>
+
+</body>
+</html>
