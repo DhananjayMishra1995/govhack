@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Your Company Name</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('static/images/background.jpeg'); /* Background image */
+            background-size: cover;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            background-color: #333;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar a {
+            color: #FFD700;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            background-color: #FFD700;
+            color: black;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1, p {
+            text-align: center;
+        }
+
+        a {
+            color: #FFD700;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #FFB700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('contact') }}">Contact Us</a>
+        <a href="{{ url_for('products') }}" class="active">Products</a>
+        <a href="{{ url_for('signup') }}">Sign Up</a>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p>Email 1: <a href="mailto:dhananjay@company.com">contact1@company.com</a></p>
+        <p>Email 2: <a href="mailto:priyam@company.com">contact2@company.com</a></p>
+        <p>Email 3: <a href="mailto:ridhi@company.com">contact3@company.com</a></p>
+        <p>Email 4: <a href="mailto:julie@company.com">contact4@company.com</a></p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Your Company</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('/static/images/background.jpeg'); /* Background image */
+            background-size: cover;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar a {
+            color: #FFD700;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            background-color: #FFD700;
+            color: black;
+        }
+
+        /* Make the font color black for the entire container */
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: black;  /* This ensures that all text inside the container is black */
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            color: black; /* Explicitly set label text to black */
+        }
+
+        input, button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #FFD700;
+            color: black;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #FFB700;
+        }
+
+        .result-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-box h2 {
+            font-size: 24px;
+            color: black;  /* Set heading color to black */
+            margin-bottom: 15px;
+        }
+
+        .result-box table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .result-box table, .result-box th, .result-box td {
+            border: 1px solid #ddd;
+        }
+
+        .result-box th, .result-box td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .result-box th {
+            background-color: #FFD700;
+            color: black;  /* Set the header row text color to black */
+        }
+
+        .result-box pre {
+            font-size: 16px;
+            color: black;  /* Ensure the preformatted text is black */
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('contact') }}">Contact Us</a>
+        <a href="{{ url_for('products') }}" class="active">Products</a>
+        <a href="{{ url_for('signup') }}">Sign Up</a>
+    </div>
+
+    <!-- Products Content -->
+    <div class="container">
+        <h1>Products</h1>
+        <h2>Saving Guidance</h2>
+        
+        <form id="spendingForm">
+            <label for="income">Weekly Income (AUD):</label><br>
+            <input type="number" id="income" name="income" required><br>
+
+            <label for="fixed_expenses">Fixed Expenses (AUD):</label><br>
+            <input type="number" id="fixed_expenses" name="fixed_expenses" required><br><br>
+
+            <label for="location">Location:</label><br>
+            <input type="text" id="location" name="location" required><br><br>
+
+            <label for="savings_goal">Savings Goal (AUD):</label><br>
+            <input type="number" id="savings_goal" name="savings_goal" required><br><br>
+
+            <button type="submit">Generate Plan</button>
+        </form>
+
+        <div class="result-box">
+            <h2>Your Spending Plan:</h2>
+
+           <!-- Table for the Spending Breakdown -->
+             <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount (AUD)</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody id="spending-table-body">
+                   <!-- The table rows will be inserted dynamically via JavaScript -->
+                </tbody>
+            </table>
+
+            
+            <pre id="result"></pre>
+        </div> 
+    </div>
+
+    <script>
+        document.getElementById('spendingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const income = document.getElementById('income').value;
+            const fixed_expenses = document.getElementById('fixed_expenses').value;
+            const location = document.getElementById('location').value;
+            const savings_goal = document.getElementById('savings_goal').value;
+
+            fetch('/generate_plan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    income: income,
+                    fixed_expenses: fixed_expenses,
+                    location: location,
+                    savings_goal: savings_goal
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const result = data.spending_plan || data.error;
+                const tableBody = document.getElementById('spending-table-body');
+                const resultText = document.getElementById('result');
+
+                // Clear previous content
+                tableBody.innerHTML = '';
+                resultText.textContent = '';
+
+                // Assuming the response includes a structured list of categories, amounts, and percentages
+                // const categories = [
+                //     { category: "Groceries", amount: 150, percentage: "33%" },
+                //     { category: "Entertainment", amount: 100, percentage: "22%" },
+                //     { category: "Personal Care", amount: 50, percentage: "11%" },
+                //     { category: "Transportation", amount: 150, percentage: "33%" }
+                // ];
+
+                // // Populate the table with the categories
+                // categories.forEach((item) => {
+                //     const row = `<tr>
+                //         <td>${item.category}</td>
+                //         <td>${item.amount}</td>
+                //         <td>${item.percentage}</td>
+                //     </tr>`;
+                //     tableBody.insertAdjacentHTML('beforeend', row);
+                // });
+
+                // Display the detailed explanation
+                resultText.textContent = result;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+
+</body>
+</html>
